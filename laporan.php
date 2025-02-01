@@ -71,7 +71,7 @@
           <option value="pengeluaran">Pengeluaran Barang</option>
         </select>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-3">
         <label for="periode" class="form-label">Periode:</label>
         <input type="month" class="form-control" id="periode" name="periode">
       </div>
@@ -96,44 +96,31 @@
           // Bersihkan area laporan
           $('#areaLaporan').html('');
 
-          // Tampilkan laporan sesuai jenis
-          if (jenis == 'stok_barang') {
-            // Tampilkan tabel stok barang
-            var table = '<table class="table table-striped">' +
-                        '<thead><tr><th>ID Barang</th><th>Nama Barang</th><th>Stok</th></tr></thead>' +
-                        '<tbody>';
-            $.each(response.data, function(index, barang) {
-              table += '<tr><td>' + barang.id_barang + '</td><td>' + barang.nama_barang + '</td><td>' + barang.stok + '</td></tr>';
+          // Tampilkan laporan dalam format tabel
+          var tableHtml = '<table class="table table-striped">';
+          if (response.jenis === 'stok_barang') {
+            tableHtml += '<thead><tr><th>ID Barang</th><th>Nama Barang</th><th>Stok</th></tr></thead><tbody>';
+            $.each(response.data, function(index, row) {
+              tableHtml += '<tr><td>' + row.id_barang + '</td><td>' + row.nama_barang + '</td><td>' + row.stok + '</td></tr>';
             });
-            table += '</tbody></table>';
-            $('#areaLaporan').html(table);
-          } else if (jenis == 'pengadaan' || jenis == 'permintaan' || jenis == 'pengeluaran') {
-            // Tampilkan grafik untuk pengadaan, permintaan, dan pengeluaran
-            var canvas = $('<canvas id="chartLaporan"></canvas>');
-            $('#areaLaporan').html(canvas);
-
-            var ctx = document.getElementById('chartLaporan').getContext('2d');
-            new Chart(ctx, {
-              type: 'bar',
-              data: {
-                labels: response.labels,
-                datasets: [{
-                  label: response.label,
-                  data: response.data,
-                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                  borderColor: 'rgba(54, 162, 235, 1)',
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
-              }
+          } else if (response.jenis === 'pengadaan') {
+            tableHtml += '<thead><tr><th>Tanggal - Supplier</th><th>Total Harga</th></tr></thead><tbody>';
+            $.each(response.labels, function(index, label) {
+              tableHtml += '<tr><td>' + label + '</td><td>' + response.data[index] + '</td></tr>';
+            });
+          } else if (response.jenis === 'permintaan') {
+            tableHtml += '<thead><tr><th>Tanggal - Peminta</th><th>Jumlah Permintaan</th></tr></thead><tbody>';
+            $.each(response.labels, function(index, label) {
+              tableHtml += '<tr><td>' + label + '</td><td>' + response.data[index] + '</td></tr>';
+            });
+          } else if (response.jenis === 'pengeluaran') {
+            tableHtml += '<thead><tr><th>Tanggal - Penerima</th><th>Jumlah Pengeluaran</th></tr></thead><tbody>';
+            $.each(response.labels, function(index, label) {
+              tableHtml += '<tr><td>' + label + '</td><td>' + response.data[index] + '</td></tr>';
             });
           }
+          tableHtml += '</tbody></table>';
+          $('#areaLaporan').html(tableHtml);
         }
       });
     }
@@ -146,6 +133,7 @@
       tampilkan_laporan(jenis, periode);
     });
   });
+  
 </script>
 
 </body>

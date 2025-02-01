@@ -22,6 +22,7 @@
 </head>
 <body>
 <?php include 'sidebar.php';?>
+<div class="content">
 <div class="container mt-4">
   <h2 class="mb-4">Permintaan Barang</h2>
 
@@ -31,12 +32,12 @@
 
   <table class="table table-striped">
     <thead>
-      <tr>
+      <!-- <tr>
         <th>ID Permintaan</th>
         <th>Tanggal</th>
         <th>Peminta</th>
         <th>Status</th>
-        <th>Aksi</th>
+        <th>Aksi</th> -->
       </tr>
     </thead>
     <tbody id="tabelPermintaan">
@@ -75,7 +76,7 @@
     </div>
   </div>
 </div>
-
+</div>
 <script>
   $(document).ready(function() {
     // Fungsi untuk memuat data permintaan menggunakan AJAX

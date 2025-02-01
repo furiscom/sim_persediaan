@@ -22,6 +22,7 @@
 </head>
 <body>
 <?php include 'sidebar.php';?>
+<div class="content">
 <div class="container mt-4">
   <h2 class="mb-4">Pengadaan Barang</h2>
 
