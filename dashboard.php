@@ -1,16 +1,12 @@
 <?php
-session_start(); // Mulai sesi
+
 
 // Periksa apakah pengguna sudah login
 if (!isset($_SESSION['username'])) {
   // Jika belum login, arahkan ke halaman login
   header("Location: login.php");
   exit;
-}
-
-// Jika sudah login, tampilkan konten halaman index
-#include 'sidebar.php'
-;?>
+} ?>
 <!DOCTYPE html>
 <html>
 <head>

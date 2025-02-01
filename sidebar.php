@@ -50,7 +50,7 @@ function active_link($link) {
   </style>
 
 <div class="sidebar">
-  <a href="index.php" class="<?php active_link('index.php');?>"><i class="fa fa-home"></i> Dashboard</a>
+  <a href="dashboard.php" class="<?php active_link('index.php');?>"><i class="fa fa-home"></i> Dashboard</a>
   <a href="barang.php" class="<?php active_link('barang.php');?>"><i class="fa fa-boxes"></i> Manajemen Barang</a>
   <a href="pengadaan.php" class="<?php active_link('pengadaan.php');?>"><i class="fa fa-cart-plus"></i> Pengadaan Barang</a>
   <a href="permintaan.php" class="<?php active_link('permintaan.php');?>"><i class="fa fa-shopping-cart"></i> Permintaan Barang</a>

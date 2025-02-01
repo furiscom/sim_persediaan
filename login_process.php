@@ -6,7 +6,7 @@ include 'includes/functions.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = validate_input($_POST['username']);
     $password = $_POST['password'];
-
+    $_SESSION['username']=  $username;
     // Query untuk memeriksa kecocokan username dan password
     $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
     $result = mysqli_query($conn, $sql);
