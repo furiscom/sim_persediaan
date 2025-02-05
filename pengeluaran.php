@@ -116,6 +116,7 @@
         dataType: 'html',
         success: function(response) {
           $('#tabelPengeluaran').html(response);
+          
         }
       });
     }
@@ -133,8 +134,10 @@
         success: function(response) {
           alert(response);
           $('#modalTambahPengeluaran').modal('hide');
+          location.reload(); //
           load_data_pengeluaran();
         }
+
       });
     });
   });

@@ -13,25 +13,25 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f8f9fa;
     }
-    .container {
+  .container {
       background-color: #ffffff;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 20px;
     }
-    .table-responsive {
+  .table-responsive {
       overflow-x: auto;
     }
     @media (max-width: 768px) {
-      .table th, .table td {
+    .table th,.table td {
         font-size: 14px;
       }
-      .btn {
+    .btn {
         font-size: 12px;
         padding: 5px 10px;
       }
     }
-    .sidebar {
+  .sidebar {
       height: 100vh;
       width: 250px;
       position: fixed;
@@ -42,7 +42,7 @@
       transition: all 0.3s ease-in-out; /* Efek transisi */
     }
 
-  .sidebar a {
+.sidebar a {
       padding: 10px 20px;
       text-decoration: none;
       font-size: 16px;
@@ -51,22 +51,22 @@
       transition: all 0.3s ease-in-out; /* Efek transisi */
     }
 
-  .sidebar a:hover {
+.sidebar a:hover {
       background-color: #555;
       color: #ffc107; /* Warna kuning saat hover */
     }
 
-  .sidebar.fa {
+.sidebar.fa {
       margin-right: 10px; /* Jarak antara ikon dan teks */
     }
 
-  .content {
+.content {
       margin-left: 250px;
       padding: 20px;
     }
 
     /* Efek hover untuk elemen di content */
-  .content.card:hover {
+.content.card:hover {
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       transform: translateY(-5px);
     }
@@ -90,6 +90,10 @@
     <i class="fa fa-plus"></i> Tambah Barang Baru
   </a>
 
+  <a href="#" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalImportBarang">
+    <i class="fa fa-file-excel-o"></i> Import dari Excel
+  </a>
+
   <div class="table-responsive">
     <table class="table table-striped text-center">
       <thead>
@@ -108,7 +112,6 @@
   </div>
 </div>
 
-<!-- Modal Tambah Barang -->
 <div class="modal fade" id="modalTambahBarang" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -144,6 +147,26 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modalImportBarang" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Import Barang dari Excel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formImportBarang" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="file_excel" class="form-label">Pilih File Excel:</label>
+            <input type="file" class="form-control" id="file_excel" name="file_excel" accept=".xls,.xlsx" required>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Import</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 <script>
   $(document).ready(function() {
@@ -174,10 +197,43 @@
       });
     });
 
-    $('#searchButton').click(function() {
-      var keyword = $('#searchInput').val();
-      // Implementasi logika filter data barang berdasarkan keyword
-    });
+    // Tambahkan event handler untuk formImportBarang
+    $('#formImportBarang').submit(function(event) {
+  event.preventDefault();
+
+  var formData = new FormData(this);
+
+  $.ajax({
+    url: 'import_barang.php', // Buat file import_barang.php untuk menangani import
+    type: 'POST',
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function(response) {
+      alert(response);
+      $('#modalImportBarang').modal('hide');
+      location.reload(); //
+      load_data_barang(); // Muat ulang data barang setelah import
+    },
+    error: function(xhr, status, error) {
+      alert("Terjadi kesalahan saat mengimport data: " + error);
+    }
+  });
+});
+
+$('#searchButton').click(function() {
+  var keyword = $('#searchInput').val();
+
+  $.ajax({
+    url: 'get_data_barang.php',
+    type: 'GET',
+    data: { keyword: keyword }, // Kirim keyword ke server
+    dataType: 'html',
+    success: function(response) {
+      $('#tabelBarang').html(response); // Update tabel barang
+    }
+  });
+});
   });
 </script>
 

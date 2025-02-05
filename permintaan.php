@@ -104,6 +104,7 @@
         success: function(response) {
           alert(response);
           $('#modalTambahPermintaan').modal('hide');
+          location.reload(); //
           load_data_permintaan();
         }
       });
